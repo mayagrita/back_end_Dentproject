@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Patient
+from .models import Note
 from django.conf import settings
 
 class PatientSerializer(serializers.ModelSerializer):
@@ -18,3 +19,16 @@ class PatientSerializer(serializers.ModelSerializer):
             if request:
                 data['image'] = request.build_absolute_uri(instance.image.url)
         return data 
+    
+
+
+
+    
+
+class NoteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Note
+        fields = ['id', 'patient', 'text', 'date']
+        extra_kwargs = {
+            'patient': {'read_only': True}
+        }
